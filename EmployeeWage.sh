@@ -1,5 +1,5 @@
-#! /bin/bash
-#function to get work hours
+#! /bin/bash -x
+#store emp daily wage with total wage
 echo "welcome to employye wage calculation"
 check=$(($RANDOM%2))
 wage_per_hr=20
@@ -10,7 +10,7 @@ total_wage=0
 day_count=1
 total_working_hrs=100
 work_hr=0
-
+count=0
 get_work_hr () {
         if [ $2 == "full_time" ];
         then
@@ -38,6 +38,8 @@ do
                         	day_count=$(($day_count+1))
 				get_work_hr $work_hr "full_time"
                         	work_hr=$?
+				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+                        	count=$(($count+1))
 			else
 				echo "employee is present in day$day_count and is a full time_emp"
                                 daily_wage=$(($wage_per_hr*$((100-$work_hr))))
@@ -45,6 +47,8 @@ do
                                 total_wage=$(($total_wage+$daily_wage))
                                 day_count=$(($day_count+1))
                                 work_hr=$(($work_hr+$((100-$work_hr))))
+				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+                        	count=$(($count+1))
 			fi
                         ;;
                         *)
@@ -57,6 +61,8 @@ do
                         	day_count=$(($day_count+1))
                         	get_work_hr $work_hr "full_time"
                         	work_hr=$?
+				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+                        	count=$(($count+1))
 			else
                                 echo "employee is present in day$day_count and is a part time_emp"
                                 daily_wage=$(($wage_per_hr*$((100-$work_hr))))
@@ -64,6 +70,8 @@ do
                                 total_wage=$(($total_wage+$daily_wage))
                                 day_count=$(($day_count+1))
                                 work_hr=$(($work_hr+$((100-$work_hr))))
+				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+                        	count=$(($count+1))
 			fi
                         ;;
                 esac
@@ -72,8 +80,14 @@ do
                 echo "employee is absent in day$day_count"
                 echo "daily_wage=$(($wage_per_hr*0))"
                 day_count=$(($day_count+1))
+		emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+                count=$(($count+1))
                 ;;
         esac
+done
+for data in ${emp_data[@]}
+do
+        echo -e "$data\n"
 done
 echo "total_wage=$total_wage"
 echo "total_work_hrs=$work_hr"
