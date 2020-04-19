@@ -1,5 +1,5 @@
 #! /bin/bash -x
-#store emp daily wage with total wage
+#store emp daily wage with total wage with day
 echo "welcome to employye wage calculation"
 check=$(($RANDOM%2))
 wage_per_hr=20
@@ -31,56 +31,46 @@ do
                         1)
 			if [ $work_hr -le 92 ];
 			then
-                        	echo "employee is present in day$day_count and is a full time_emp"
                         	daily_wage=$(($wage_per_hr*$full_day_hr))
-                        	echo "daily_wage=$daily_ echo "
-                        	total_wage=$(($total_wage+$daily_wage))
+                              	total_wage=$(($total_wage+$daily_wage))
                         	day_count=$(($day_count+1))
 				get_work_hr $work_hr "full_time"
                         	work_hr=$?
-				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
-                        	count=$(($count+1))
+				emp_data[$count]="day$day_count-daily_wage=$daily_wage:total_wage=$total_wage"
+                		count=$(($count+1))
 			else
-				echo "employee is present in day$day_count and is a full time_emp"
                                 daily_wage=$(($wage_per_hr*$((100-$work_hr))))
-                                echo "daily_wage=$daily_ echo "
                                 total_wage=$(($total_wage+$daily_wage))
                                 day_count=$(($day_count+1))
                                 work_hr=$(($work_hr+$((100-$work_hr))))
-				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+				emp_data[$count]="day$day_count-daily_wage=$daily_wage:total_wage=$total_wage"
                         	count=$(($count+1))
 			fi
                         ;;
                         *)
 			if [ $work_hr -le 96 ];
 			then
-                        	echo "employee is present in day$day_count and is a part time_emp"
                         	daily_wage=$(($wage_per_hr*$half_day_hr))
-                        	echo "daily_wage=$daily_wage"
                         	total_wage=$(($total_wage+$daily_wage))
                         	day_count=$(($day_count+1))
                         	get_work_hr $work_hr "full_time"
                         	work_hr=$?
-				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+				emp_data[$count]="day$day_count-daily_wage=$daily_wage:total_wage=$total_wage"
                         	count=$(($count+1))
 			else
-                                echo "employee is present in day$day_count and is a part time_emp"
                                 daily_wage=$(($wage_per_hr*$((100-$work_hr))))
-                                echo "daily_wage=$daily_wage"
                                 total_wage=$(($total_wage+$daily_wage))
                                 day_count=$(($day_count+1))
                                 work_hr=$(($work_hr+$((100-$work_hr))))
-				emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+				emp_data[$count]="day$day_count-daily_wage=$daily_wage:total_wage=$total_wage"
                         	count=$(($count+1))
 			fi
                         ;;
                 esac
                 ;;
                 *)
-                echo "employee is absent in day$day_count"
-                echo "daily_wage=$(($wage_per_hr*0))"
                 day_count=$(($day_count+1))
-		emp_data[$count]="daily_wage-$daily_wage:total_wage=$total_wage"
+		emp_data[$count]="day$day_count-daily_wage=$daily_wage:total_wage=$total_wage"
                 count=$(($count+1))
                 ;;
         esac
