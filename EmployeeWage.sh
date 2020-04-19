@@ -1,5 +1,5 @@
 #! /bin/bash
-#Calculate Wages till a condition of total working hours or days is reached for a month
+#function to get work hours
 echo "welcome to employye wage calculation"
 check=$(($RANDOM%2))
 wage_per_hr=20
@@ -10,6 +10,18 @@ total_wage=0
 day_count=1
 total_working_hrs=100
 work_hr=0
+
+get_work_hr () {
+        if [ $2 == "full_time" ];
+        then
+                workhr=$(($1+8))
+                return $workhr
+        else
+                workhr=$(($1+4))
+                return $workhr
+        fi
+}
+
 while [ $day_count -le $total_work_day ] && [ $work_hr -lt $total_working_hrs ]
 do
         case $check in
@@ -24,7 +36,8 @@ do
                         	echo "daily_wage=$daily_ echo "
                         	total_wage=$(($total_wage+$daily_wage))
                         	day_count=$(($day_count+1))
-                        	work_hr=$(($work_hr+8))
+				get_work_hr $work_hr "full_time"
+                        	work_hr=$?
 			else
 				echo "employee is present in day$day_count and is a full time_emp"
                                 daily_wage=$(($wage_per_hr*$((100-$work_hr))))
@@ -42,7 +55,8 @@ do
                         	echo "daily_wage=$daily_wage"
                         	total_wage=$(($total_wage+$daily_wage))
                         	day_count=$(($day_count+1))
-                        	work_hr=$(($work_hr+4))
+                        	get_work_hr $work_hr "full_time"
+                        	work_hr=$?
 			else
                                 echo "employee is present in day$day_count and is a part time_emp"
                                 daily_wage=$(($wage_per_hr*$((100-$work_hr))))
