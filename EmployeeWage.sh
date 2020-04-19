@@ -1,10 +1,9 @@
 #! /bin/bash -x
-# Employee Attendance
+#daily wage
 echo "welcome to employye wage calculation"
 check=$(($RANDOM%2))
 wage_per_hr=20
 full_day_hr=8
-half_day_hr=4
 if [ $check -eq 1 ];
 then
         echo "employee is present"
